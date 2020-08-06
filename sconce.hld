@@ -1,0 +1,71 @@
+$fn=360;
+l = 65;
+w = 65;
+ht = 60;
+th = 2;
+corner_r = 5;
+
+module roundedBox(loc, r, sidesOnly=true, $fn=120) {
+    x = loc[0];
+    y = loc[1];
+    z = loc[2];
+    if (sidesOnly) {
+        hull() {
+            translate([r, r, 0]) cylinder(z, r = r);
+            translate([r, y - r, 0]) cylinder(z, r = r);
+            translate([x - r, y - r, 0]) cylinder(z, r = r);
+            translate([x - r, r, 0]) cylinder(z, r = r);
+        }
+    } else {
+        hull() {
+            translate([r, r, r]) sphere(r);
+            translate([r, y - r, r]) sphere(r);
+            translate([x - r, y - r, r]) sphere(r);
+            translate([x - r, r, r]) sphere(r);
+            translate([r, r, z-r]) sphere(r);
+            translate([r, y - r, z-r]) sphere(r);
+            translate([x - r, y - r, z-r]) sphere(r);
+            translate([x - r, r, z-r]) sphere(r);
+        }
+    }
+}
+
+difference() {
+    cube([l,w,ht]);
+    translate([-1,th,ht-th]) rotate([0,90,0]) roundedBox([ht-1.5*th,w-2*th,l+2], corner_r, true);    
+    translate([-1,th,-1]) cube([l+2,w-6,corner_r * 1.5]);
+    translate([l/2,-0.5,20]) rotate([-90,0,0]) cylinder(3,d=10);
+}
+difference() {
+    translate([l+10,w/2,ht-2]) cylinder(2,d=98.5+l);
+    translate([0,-165/2,0]) cube([165,200,ht+1]);
+}
+translate([l,0,0]) mirror([1,0,0]) difference() {
+    translate([l+10,w/2,ht-2]) cylinder(2,d=98.5+l);
+    translate([0,-165/2,0]) cube([165,200,ht+1]);
+}
+difference() {
+    translate([0,w-20,0]) cube([l,20,2]);
+    translate([14,w-20+8/2+2,0]) cylinder(2,d=8);
+    translate([14,w-9,1]) cube([3.51,3,2.1],true);
+    translate([14,w-8,0]) cylinder(3,d=3.51);
+    translate([l-14,w-20+8/2+2,0]) cylinder(2,d=8);
+    translate([l-14,w-9,1]) cube([3.51,3,2.1],true);
+    translate([l-14,w-8,0]) cylinder(2,d=3.51);
+}
+translate([10,20,ht-2]) rotate([180,0,0]) difference () {
+    cylinder(5/16*25.4,d=10);
+    translate([0,0,1/16*25.4]) cylinder(1/4*25.4,d=3.8);
+}
+translate([10,65-20,ht-2]) rotate([180,0,0]) difference () {
+    cylinder(5/16*25.4,d=10);
+    translate([0,0,1/16*25.4]) cylinder(1/4*25.4,d=3.8);
+}
+translate([l-10,20,ht-2]) rotate([180,0,0]) difference () {
+    cylinder(5/16*25.4,d=10);
+    translate([0,0,1/16*25.4]) cylinder(1/4*25.4,d=3.8);
+}
+translate([l-10,w-20,ht-2]) rotate([180,0,0]) difference () {
+    cylinder(5/16*25.4,d=10);
+    translate([0,0,1/16*25.4]) cylinder(1/4*25.4,d=3.8);
+}

@@ -1,0 +1,25 @@
+module base(hub_dia) {
+    difference() {
+        cylinder(h=1,d=hub_dia+10);
+        cylinder(h=1,d=hub_dia);
+    }
+}
+
+module spindle(hub_dia, inner_dia) {
+    difference() {
+        cylinder(h=5,d=hub_dia);
+        cylinder(h=5,d=inner_dia);
+    }
+}
+
+module nub(angle,ring_pt) {
+    translate([ring_pt/2*cos(angle),ring_pt/2*sin(angle),2.5]) sphere(2);
+}
+
+// You should add 0.1mm to your measured diameter to allow for shrinkage and flex.
+hub = 54.7;
+pipe = 34.6;
+ // 33.6 is the OD of sch40 PVC, and the nubs are 1mm
+base(hub);
+spindle(hub,pipe);
+for (i=[1:12]) {nub(i*30,34.6);}
